@@ -6,24 +6,13 @@ char *create_buffer(char *file);
 void close_file(int fd);
 
 /**
- * append_text_to_file - Appends text to the end of a file.
- * @filename: The name of the destination file.
- * @text_content: The NULL-terminated string to append to the file.
+ * create_buffer - Allocates a 1024-byte buffer.
+ * @file: The name of the file for which the buffer is allocated.
  *
- * Return: 1 on success, -1 on failure.
- *         -1 is returned if:
- *          - The number of arguments is incorrect (exit code 97).
- *          - The source file (file_from) does not exist or cannot be read (exit code 98).
- *          - The destination file (file_to) cannot be created or written to (exit code 99).
- *          - Closing a file descriptor fails (exit code 100).
- *         Permissions of the created file: rw-rw-r--.
- *
- * Notes:
- * - If the destination file (file_to) already exists, it will be truncated.
- * - The function reads 1,024 bytes at a time from file_from for efficiency.
- * - It is allowed to use dprintf for error messages.
+ * Return: A pointer to the newly-allocated buffer, or exit with code 99
+ * if malloc fails.
  */
-
+char *create_buffer(char *file)
 {
 	char *buffer;
 
@@ -40,16 +29,10 @@ void close_file(int fd);
 }
 
 /**
- * close_fd - Closes a file descriptor and handles errors.
- * @fd: The file descriptor to close.
- *
- * This function attempts to close the specified file descriptor and checks
- * for any errors. If an error occurs, it prints an error message to the
- * standard error stream and exits with code 100.
- *
- * Return: None.
+ * close_file - Closes a file descriptor.
+ * @fd: The file descriptor to be closed.
  */
-
+void close_file(int fd)
 {
 	int c;
 
@@ -63,17 +46,16 @@ void close_file(int fd);
 }
 
 /**
- * main - Copies the content of one file to another.
- * @argc: The number of arguments passed to the program.
- * @argv: An array of strings containing the program arguments.
- *
- * This program copies the content of one file to another. It takes two
- * command-line arguments: the source file (file_from) and the destination
- * file (file_to). If any errors occur during file operations, appropriate
- * error messages are printed to the standard error stream, and the program
- * exits with the corresponding exit codes (97, 98, 99, or 100).
+ * main - Copies the content of a file to another file.
+ * @argc: The number of arguments supplied to the program.
+ * @argv: An array of pointers to the program arguments.
  *
  * Return: 0 on success.
+ *
+ * Description: If the argument count is incorrect, exit with code 97.
+ * If file_from does not exist or cannot be read, exit with code 98.
+ * If file_to cannot be created or written to, exit with code 99.
+ * If file_to or file_from cannot be closed, exit with code 100.
  */
 int main(int argc, char *argv[])
 {
@@ -120,3 +102,4 @@ int main(int argc, char *argv[])
 
 	return (0);
 }
+
